@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/rock_scissors_paper/handler"
+	app "github.com/HgCl2/rock_scissors_paper"
 )
 
 func main() {
-	srv := new(handler.Server)
+	srv := new(app.Server)
 	if err := srv.Run("8000"); err != nil {
 		log.Fatalf("error run http server %s", err.Error())
 	}
