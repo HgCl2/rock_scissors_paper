@@ -9,16 +9,16 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	auth := router.Group("/auth")
 	{
-		auth.POST("/sign-up")
-		auth.POST("/sign-in")
+		auth.POST("/sign-up", h.signUp)
+		auth.POST("/sign-in", h.signIn)
 	}
 
 	hall := router.Group("/hall")
 	{
-		hall.GET("/")
-		hall.POST("/create-room")
-		hall.GET("/gameroom")
-		hall.POST("/gameroom")
+		hall.GET("/", h.hall)
+		hall.POST("/create-room", h.createRoom)
+		hall.GET("/gameroom", h.getGameRoom)
+		hall.POST("/gameroom", h.postGameRoom)
 	}
 
 	return router
