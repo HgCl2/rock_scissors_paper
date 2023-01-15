@@ -1,8 +1,13 @@
 package service
 
-import "github.com/HgCl2/rock_scissors_paper/pkg/repository"
+import (
+	app "github.com/HgCl2/rock_scissors_paper"
+	"github.com/HgCl2/rock_scissors_paper/pkg/repository"
+)
 
-type Authorization interface{}
+type Authorization interface {
+	CreateUser(user app.Player) (int, error)
+}
 
 type Room interface{}
 
@@ -15,5 +20,7 @@ type Service struct {
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		Authorization: NewAuthService(repos.Authorization),
+	}
 }
