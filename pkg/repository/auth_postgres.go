@@ -25,3 +25,11 @@ func (r *AuthPostgres) CreateUser(user app.Player) (int, error) {
 
 	return id, nil
 }
+
+func (r *AuthPostgres) GetUser(username, password string) (app.Player, error) {
+	var user app.Player
+	query := `SELECT id FROM users WHERE username = $1 AND password_hash = $2`
+	err := r.db.Get(&user, query, username, password)
+
+	return user, err
+}
