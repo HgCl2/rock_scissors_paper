@@ -9,6 +9,7 @@ import (
 	"github.com/HgCl2/rock_scissors_paper/pkg/repository"
 	"github.com/HgCl2/rock_scissors_paper/pkg/service"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 )
 
