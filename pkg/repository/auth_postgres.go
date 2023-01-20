@@ -15,10 +15,10 @@ func NewAuthPostgres(db *sqlx.DB) *AuthPostgres {
 
 func (r *AuthPostgres) CreateUser(user app.Player) (int, error) {
 	var id int
-	query := `INSERT INTO users (name, username, password_hash) VALUES ($1, $2, $3)
+	query := `INSERT INTO users (fullname, username, password_hash) VALUES ($1, $2, $3)
 		RETURNING id`
 
-	row := r.db.QueryRow(query, user.Name, user.Username, user.Password)
+	row := r.db.QueryRow(query, user.Fullname, user.Username, user.Password)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
 	}
