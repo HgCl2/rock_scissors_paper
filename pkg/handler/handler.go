@@ -22,7 +22,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-in", h.signIn)
 	}
 
-	hall := router.Group("/hall")
+	hall := router.Group("/hall", h.userIdentity)
 	{
 		hall.GET("/", h.hall)
 		hall.POST("/create-room", h.createRoom)
