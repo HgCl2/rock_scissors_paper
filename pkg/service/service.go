@@ -7,6 +7,7 @@ import (
 
 type Authorization interface {
 	CreateUser(user app.Player) (int, error)
+	GenerateToken(username, password string) (string, error)
 }
 
 type Room interface{}
