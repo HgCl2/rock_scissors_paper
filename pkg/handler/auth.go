@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"html/template"
+	"log"
 	"net/http"
 
 	app "github.com/HgCl2/rock_scissors_paper"
@@ -25,6 +27,22 @@ func (h *Handler) signUp(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
+}
+
+func (h *Handler) getGoogleLogin(c *gin.Context) {
+	t, err := template.ParseFiles("./ui/template/index.html")
+	if err != nil {
+		log.Printf("getSignUp: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+		return
+	}
+	err = t.Execute(c.Writer, nil)
+	if err != nil {
+		log.Printf("getSignUp: %s\n", err.Error())
+		http.Error(c.Writer, http.StatusText(http.StatusInternalServerError),
+			http.StatusInternalServerError)
+	}
 }
 
 type signInInput struct {
