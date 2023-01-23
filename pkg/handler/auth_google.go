@@ -2,7 +2,10 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/http"
 
+	app "github.com/HgCl2/rock_scissors_paper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,7 +20,7 @@ func (h *Handler) googleLogin(c *gin.Context) {
 	params := parameters{}
 	err := decoder.Decode(&params)
 	if err != nil {
-		newErrorResponse(c, 500, "Couldn't decode parameters")
+		newErrorResponse(c, http.StatusInternalServerError, "Couldn't decode parameters")
 		return
 	}
 
@@ -28,10 +31,22 @@ func (h *Handler) googleLogin(c *gin.Context) {
 		return
 	}
 
+	user := app.Player{
+		Fullname: claims.FirstName + " " + claims.LastName,
+		Username: claims.FirstName + "_" + claims.LastName,
+		Email:    claims.Email,
+		Password: "password",
+	}
+	user_id, err := h.services.Authorization.CreateUser(user)
+	if err != nil || user_id == 0 {
+		newErrorResponse(c, http.StatusInternalServerError,
+			fmt.Sprintf("googleLogin: can't create user: %s", err.Error()))
+	}
+
 	// create a JWT for OUR app and give it back to the client for future requests
-	tokenString, err := h.services.GenerateToken(claims.Email)
+	tokenString, err := h.services.GenerateToken(claims.FirstName+"_"+claims.LastName, "password")
 	if err != nil {
-		newErrorResponse(c, 500, "Couldn't make authentication token")
+		newErrorResponse(c, http.StatusInternalServerError, "Couldn't make authentication token")
 		return
 	}
 
