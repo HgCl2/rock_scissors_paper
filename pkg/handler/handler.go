@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/HgCl2/rock_scissors_paper/pkg/service"
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -33,6 +34,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		hall.GET("/gameroom", h.getGameRoom)
 		hall.POST("/gameroom", h.postGameRoom)
 	}
+
+	// static routes
+	router.Use(static.Serve("/", static.LocalFile("./ui", true)))
 
 	return router
 }
